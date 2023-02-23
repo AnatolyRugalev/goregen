@@ -17,22 +17,22 @@ limitations under the License.
 package regen
 
 import (
+	"github.com/stretchr/testify/require"
 	"testing"
-
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestXorShift64(t *testing.T) {
-	Convey("Int63 should never return negative numbers.", t, func() {
+	t.Run("Int63 should never return negative numbers.", func(t *testing.T) {
+
 		source := xorShift64Source(1)
 		for i := 0; i < SampleSize; i++ {
 			val := source.Int63()
 
-			So(val, ShouldBeGreaterThanOrEqualTo, 0)
+			require.GreaterOrEqual(t, val, int64(0))
 		}
 	})
 
-	Convey("Should not only return zeros", t, func() {
+	t.Run("Should not only return zeros", func(t *testing.T) {
 		source := xorShift64Source(0)
 		nonZeroCount := 0
 
@@ -41,7 +41,6 @@ func TestXorShift64(t *testing.T) {
 				nonZeroCount++
 			}
 		}
-
-		So(nonZeroCount, ShouldBeGreaterThan, 0)
+		require.Greater(t, nonZeroCount, 0)
 	})
 }

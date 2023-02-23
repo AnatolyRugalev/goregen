@@ -20,20 +20,20 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGeneratorError(t *testing.T) {
-	Convey("GeneratorError", t, func() {
+	t.Run("GeneratorError", func(t *testing.T) {
 
-		Convey("Handles nil cause", func() {
+		t.Run("Handles nil cause", func(t *testing.T) {
 			err := generatorError(nil, "msg")
-			So(err.Error(), ShouldEqual, "msg")
+			require.Equal(t, "msg", err.Error())
 		})
 
-		Convey("Formats", func() {
+		t.Run("Formats", func(t *testing.T) {
 			err := generatorError(errors.New("cause"), "msg %s", "arg")
-			So(err.Error(), ShouldEqual, "msg arg\ncaused by cause")
+			require.Equal(t, "msg arg\ncaused by cause", err.Error())
 		})
 	})
 }
